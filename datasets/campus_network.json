@@ -1,0 +1,253 @@
+{
+  "name": "Campus_IT_Infrastructure_Demonstration",
+  "directed": false,
+  "multigraph": false,
+  "metadata": {
+    "is_demonstration": true,
+    "description": "College campus IT network topology used for network resilience analysis, single points of failure evaluation, and infrastructure hardening demonstrations.",
+    "entry_points": ["G1"],
+    "critical_services": ["LS1", "LS2", "AS1", "LMS"],
+    "expected_properties": {
+      "node_count": 12,
+      "edge_count": 11,
+      "connected_components_count": 1,
+      "articulation_points": ["R1", "C1", "L1", "B1", "A1", "D1", "LMS"],
+      "bridges_count": 11
+    }
+  },
+  "nodes": [
+    {
+      "node_id": "G1",
+      "node_type": "gateway",
+      "importance": 5.0,
+      "capacity": 1000.0,
+      "current_load": 200.0,
+      "failure_probability": 0.005,
+      "is_critical": true,
+      "metadata": { "label": "Internet Gateway", "role": "Perimeter Egress / Ingress", "zone": "Gateway" }
+    },
+    {
+      "node_id": "R1",
+      "node_type": "router",
+      "importance": 4.5,
+      "capacity": 900.0,
+      "current_load": 220.0,
+      "failure_probability": 0.01,
+      "is_critical": true,
+      "metadata": { "label": "Edge Router", "role": "Campus Border Routing", "zone": "Core" }
+    },
+    {
+      "node_id": "C1",
+      "node_type": "switch",
+      "importance": 5.0,
+      "capacity": 1200.0,
+      "current_load": 350.0,
+      "failure_probability": 0.01,
+      "is_critical": true,
+      "metadata": { "label": "Core Switch", "role": "Campus Backbone Aggregation", "zone": "Core" }
+    },
+    {
+      "node_id": "L1",
+      "node_type": "switch",
+      "importance": 3.5,
+      "capacity": 500.0,
+      "current_load": 120.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Laboratory Switch", "role": "Academic Computing Lab", "zone": "Academics" }
+    },
+    {
+      "node_id": "LS1",
+      "node_type": "server",
+      "importance": 4.0,
+      "capacity": 400.0,
+      "current_load": 80.0,
+      "failure_probability": 0.02,
+      "is_critical": true,
+      "metadata": { "label": "Laboratory Server", "role": "Student Lab Workstations & Compilers", "zone": "Academics" }
+    },
+    {
+      "node_id": "B1",
+      "node_type": "switch",
+      "importance": 3.5,
+      "capacity": 500.0,
+      "current_load": 110.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Library Switch", "role": "Digital Library LAN", "zone": "Library" }
+    },
+    {
+      "node_id": "LS2",
+      "node_type": "server",
+      "importance": 4.0,
+      "capacity": 400.0,
+      "current_load": 95.0,
+      "failure_probability": 0.02,
+      "is_critical": true,
+      "metadata": { "label": "Library Server", "role": "E-Resources & Journal Repository", "zone": "Library" }
+    },
+    {
+      "node_id": "A1",
+      "node_type": "switch",
+      "importance": 3.5,
+      "capacity": 500.0,
+      "current_load": 130.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Administration Switch", "role": "Administrative Services Subnet", "zone": "Administration" }
+    },
+    {
+      "node_id": "AS1",
+      "node_type": "server",
+      "importance": 4.5,
+      "capacity": 500.0,
+      "current_load": 140.0,
+      "failure_probability": 0.015,
+      "is_critical": true,
+      "metadata": { "label": "Administration Server", "role": "ERP & Student Records", "zone": "Administration" }
+    },
+    {
+      "node_id": "D1",
+      "node_type": "switch",
+      "importance": 4.0,
+      "capacity": 800.0,
+      "current_load": 250.0,
+      "failure_probability": 0.015,
+      "is_critical": false,
+      "metadata": { "label": "Data Center Switch", "role": "Campus Data Center Fabric", "zone": "Data Center" }
+    },
+    {
+      "node_id": "LMS",
+      "node_type": "server",
+      "importance": 4.8,
+      "capacity": 600.0,
+      "current_load": 210.0,
+      "failure_probability": 0.015,
+      "is_critical": true,
+      "metadata": { "label": "Learning Management System Server", "role": "Courseware & Online Exams", "zone": "Data Center" }
+    },
+    {
+      "node_id": "DB1",
+      "node_type": "database",
+      "importance": 4.5,
+      "capacity": 700.0,
+      "current_load": 190.0,
+      "failure_probability": 0.01,
+      "is_critical": false,
+      "metadata": { "label": "Database Server", "role": "Central Relational Database", "zone": "Data Center" }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "E_G1_R1",
+      "source": "G1",
+      "target": "R1",
+      "weight": 1.0,
+      "capacity": 1000.0,
+      "latency": 2.0,
+      "is_directed": false,
+      "metadata": { "label": "WAN Uplink", "cable": "Single-Mode Fiber 10G" }
+    },
+    {
+      "edge_id": "E_R1_C1",
+      "source": "R1",
+      "target": "C1",
+      "weight": 1.0,
+      "capacity": 1000.0,
+      "latency": 1.0,
+      "is_directed": false,
+      "metadata": { "label": "Core Interconnect", "cable": "OM4 Multi-Mode Fiber 10G" }
+    },
+    {
+      "edge_id": "E_C1_L1",
+      "source": "C1",
+      "target": "L1",
+      "weight": 1.0,
+      "capacity": 500.0,
+      "latency": 4.0,
+      "is_directed": false,
+      "metadata": { "label": "Lab Trunk Link", "cable": "Cat6A Copper Trunk" }
+    },
+    {
+      "edge_id": "E_L1_LS1",
+      "source": "L1",
+      "target": "LS1",
+      "weight": 1.0,
+      "capacity": 400.0,
+      "latency": 1.5,
+      "is_directed": false,
+      "metadata": { "label": "Lab Server Access", "cable": "Cat6 Copper" }
+    },
+    {
+      "edge_id": "E_C1_B1",
+      "source": "C1",
+      "target": "B1",
+      "weight": 1.0,
+      "capacity": 500.0,
+      "latency": 5.0,
+      "is_directed": false,
+      "metadata": { "label": "Library Trunk Link", "cable": "OM3 Fiber" }
+    },
+    {
+      "edge_id": "E_B1_LS2",
+      "source": "B1",
+      "target": "LS2",
+      "weight": 1.0,
+      "capacity": 400.0,
+      "latency": 1.5,
+      "is_directed": false,
+      "metadata": { "label": "Library Server Access", "cable": "Cat6 Copper" }
+    },
+    {
+      "edge_id": "E_C1_A1",
+      "source": "C1",
+      "target": "A1",
+      "weight": 1.0,
+      "capacity": 500.0,
+      "latency": 3.0,
+      "is_directed": false,
+      "metadata": { "label": "Admin Trunk Link", "cable": "Cat6A Copper Trunk" }
+    },
+    {
+      "edge_id": "E_A1_AS1",
+      "source": "A1",
+      "target": "AS1",
+      "weight": 1.0,
+      "capacity": 400.0,
+      "latency": 1.0,
+      "is_directed": false,
+      "metadata": { "label": "Admin Server Access", "cable": "Cat6 Copper" }
+    },
+    {
+      "edge_id": "E_C1_D1",
+      "source": "C1",
+      "target": "D1",
+      "weight": 1.0,
+      "capacity": 800.0,
+      "latency": 1.0,
+      "is_directed": false,
+      "metadata": { "label": "Data Center High-Speed Uplink", "cable": "OM4 Fiber 10G" }
+    },
+    {
+      "edge_id": "E_D1_LMS",
+      "source": "D1",
+      "target": "LMS",
+      "weight": 1.0,
+      "capacity": 600.0,
+      "latency": 0.8,
+      "is_directed": false,
+      "metadata": { "label": "LMS Host Interconnect", "cable": "Direct Attach Copper 10G" }
+    },
+    {
+      "edge_id": "E_LMS_DB1",
+      "source": "LMS",
+      "target": "DB1",
+      "weight": 1.0,
+      "capacity": 700.0,
+      "latency": 0.5,
+      "is_directed": false,
+      "metadata": { "label": "Database Storage Link", "cable": "Direct Attach Copper 10G" }
+    }
+  ]
+}
+

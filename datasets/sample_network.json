@@ -1,0 +1,377 @@
+{
+  "name": "Enterprise_Hybrid_Campus_Infrastructure",
+  "directed": false,
+  "multigraph": false,
+  "metadata": {
+    "description": "Mathematically calibrated benchmark infrastructure network containing 18 nodes, 18 links, 3 connected components, 3 cycles, 10 bridges, and 6 articulation points.",
+    "expected_properties": {
+      "node_count": 18,
+      "edge_count": 18,
+      "connected_components_count": 3,
+      "isolated_nodes_count": 1,
+      "isolated_nodes": ["SRV_STANDBY"],
+      "giant_component_size": 15,
+      "articulation_points_count": 6,
+      "articulation_points": ["FW1", "FW2", "R1", "SW1", "SW2", "SW3"],
+      "bridges_count": 10,
+      "bridges": [
+        ["DB_PRIMARY", "FW2"],
+        ["DB_REPLICA", "FW2"],
+        ["FW1", "SRV_WEB"],
+        ["FW1", "SW1"],
+        ["FW2", "SW2"],
+        ["GW1", "R1"],
+        ["R_BRANCH", "SRV_BRANCH"],
+        ["SRV_APP1", "SW3"],
+        ["SRV_APP2", "SW3"],
+        ["SRV_FILE", "SW3"]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "node_id": "GW1",
+      "node_type": "gateway",
+      "importance": 5.0,
+      "capacity": 1000.0,
+      "current_load": 150.0,
+      "failure_probability": 0.005,
+      "is_critical": true,
+      "metadata": { "label": "Internet Gateway", "role": "Perimeter Egress" }
+    },
+    {
+      "node_id": "R1",
+      "node_type": "router",
+      "importance": 4.5,
+      "capacity": 800.0,
+      "current_load": 200.0,
+      "failure_probability": 0.01,
+      "is_critical": true,
+      "metadata": { "label": "Core Router 1" }
+    },
+    {
+      "node_id": "R2",
+      "node_type": "router",
+      "importance": 4.0,
+      "capacity": 800.0,
+      "current_load": 180.0,
+      "failure_probability": 0.01,
+      "is_critical": false,
+      "metadata": { "label": "Core Router 2" }
+    },
+    {
+      "node_id": "R3",
+      "node_type": "router",
+      "importance": 4.0,
+      "capacity": 800.0,
+      "current_load": 170.0,
+      "failure_probability": 0.01,
+      "is_critical": false,
+      "metadata": { "label": "Core Router 3" }
+    },
+    {
+      "node_id": "SW1",
+      "node_type": "switch",
+      "importance": 3.5,
+      "capacity": 500.0,
+      "current_load": 120.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Distribution Switch 1" }
+    },
+    {
+      "node_id": "SW2",
+      "node_type": "switch",
+      "importance": 3.5,
+      "capacity": 500.0,
+      "current_load": 110.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Distribution Switch 2" }
+    },
+    {
+      "node_id": "SW3",
+      "node_type": "switch",
+      "importance": 3.0,
+      "capacity": 400.0,
+      "current_load": 90.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Access Switch 3" }
+    },
+    {
+      "node_id": "FW1",
+      "node_type": "firewall",
+      "importance": 4.0,
+      "capacity": 300.0,
+      "current_load": 80.0,
+      "failure_probability": 0.015,
+      "is_critical": true,
+      "metadata": { "label": "DMZ Firewall" }
+    },
+    {
+      "node_id": "FW2",
+      "node_type": "firewall",
+      "importance": 4.5,
+      "capacity": 350.0,
+      "current_load": 95.0,
+      "failure_probability": 0.015,
+      "is_critical": true,
+      "metadata": { "label": "Database Firewall" }
+    },
+    {
+      "node_id": "SRV_WEB",
+      "node_type": "server",
+      "importance": 3.0,
+      "capacity": 200.0,
+      "current_load": 60.0,
+      "failure_probability": 0.03,
+      "is_critical": false,
+      "metadata": { "label": "Public Web Server" }
+    },
+    {
+      "node_id": "DB_PRIMARY",
+      "node_type": "database",
+      "importance": 5.0,
+      "capacity": 400.0,
+      "current_load": 150.0,
+      "failure_probability": 0.01,
+      "is_critical": true,
+      "metadata": { "label": "Primary PostgreSQL Cluster" }
+    },
+    {
+      "node_id": "DB_REPLICA",
+      "node_type": "database",
+      "importance": 4.0,
+      "capacity": 400.0,
+      "current_load": 50.0,
+      "failure_probability": 0.015,
+      "is_critical": false,
+      "metadata": { "label": "Read-Replica DB" }
+    },
+    {
+      "node_id": "SRV_APP1",
+      "node_type": "server",
+      "importance": 2.5,
+      "capacity": 200.0,
+      "current_load": 40.0,
+      "failure_probability": 0.03,
+      "is_critical": false,
+      "metadata": { "label": "App Server 1" }
+    },
+    {
+      "node_id": "SRV_APP2",
+      "node_type": "server",
+      "importance": 2.5,
+      "capacity": 200.0,
+      "current_load": 45.0,
+      "failure_probability": 0.03,
+      "is_critical": false,
+      "metadata": { "label": "App Server 2" }
+    },
+    {
+      "node_id": "SRV_FILE",
+      "node_type": "server",
+      "importance": 2.0,
+      "capacity": 150.0,
+      "current_load": 30.0,
+      "failure_probability": 0.04,
+      "is_critical": false,
+      "metadata": { "label": "NFS File Server" }
+    },
+    {
+      "node_id": "R_BRANCH",
+      "node_type": "router",
+      "importance": 3.0,
+      "capacity": 300.0,
+      "current_load": 20.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Isolated Branch Router" }
+    },
+    {
+      "node_id": "SRV_BRANCH",
+      "node_type": "server",
+      "importance": 2.0,
+      "capacity": 150.0,
+      "current_load": 15.0,
+      "failure_probability": 0.03,
+      "is_critical": false,
+      "metadata": { "label": "Branch Local Server" }
+    },
+    {
+      "node_id": "SRV_STANDBY",
+      "node_type": "server",
+      "importance": 1.0,
+      "capacity": 100.0,
+      "current_load": 0.0,
+      "failure_probability": 0.05,
+      "is_critical": false,
+      "metadata": { "label": "Air-Gapped Standby Node (Isolated)" }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "e_gw1_r1",
+      "source": "GW1",
+      "target": "R1",
+      "weight": 1.0,
+      "latency": 0.5,
+      "capacity": 40.0,
+      "reliability": 0.999
+    },
+    {
+      "edge_id": "e_r1_r2",
+      "source": "R1",
+      "target": "R2",
+      "weight": 2.0,
+      "latency": 1.0,
+      "capacity": 20.0,
+      "reliability": 0.995
+    },
+    {
+      "edge_id": "e_r2_r3",
+      "source": "R2",
+      "target": "R3",
+      "weight": 2.0,
+      "latency": 1.0,
+      "capacity": 20.0,
+      "reliability": 0.995
+    },
+    {
+      "edge_id": "e_r3_r1",
+      "source": "R3",
+      "target": "R1",
+      "weight": 2.0,
+      "latency": 1.0,
+      "capacity": 20.0,
+      "reliability": 0.995
+    },
+    {
+      "edge_id": "e_r2_sw1",
+      "source": "R2",
+      "target": "SW1",
+      "weight": 3.0,
+      "latency": 1.5,
+      "capacity": 10.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_r3_sw2",
+      "source": "R3",
+      "target": "SW2",
+      "weight": 3.0,
+      "latency": 1.5,
+      "capacity": 10.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw1_sw2",
+      "source": "SW1",
+      "target": "SW2",
+      "weight": 1.5,
+      "latency": 0.8,
+      "capacity": 10.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw1_fw1",
+      "source": "SW1",
+      "target": "FW1",
+      "weight": 1.0,
+      "latency": 0.5,
+      "capacity": 5.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_fw1_srv_web",
+      "source": "FW1",
+      "target": "SRV_WEB",
+      "weight": 1.0,
+      "latency": 0.2,
+      "capacity": 5.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw2_fw2",
+      "source": "SW2",
+      "target": "FW2",
+      "weight": 1.0,
+      "latency": 0.5,
+      "capacity": 10.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_fw2_db_prim",
+      "source": "FW2",
+      "target": "DB_PRIMARY",
+      "weight": 0.5,
+      "latency": 0.2,
+      "capacity": 10.0,
+      "reliability": 0.999
+    },
+    {
+      "edge_id": "e_fw2_db_repl",
+      "source": "FW2",
+      "target": "DB_REPLICA",
+      "weight": 0.8,
+      "latency": 0.3,
+      "capacity": 5.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw1_sw3",
+      "source": "SW1",
+      "target": "SW3",
+      "weight": 1.0,
+      "latency": 0.6,
+      "capacity": 10.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw2_sw3",
+      "source": "SW2",
+      "target": "SW3",
+      "weight": 1.0,
+      "latency": 0.6,
+      "capacity": 10.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw3_srv_app1",
+      "source": "SW3",
+      "target": "SRV_APP1",
+      "weight": 0.5,
+      "latency": 0.1,
+      "capacity": 2.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw3_srv_app2",
+      "source": "SW3",
+      "target": "SRV_APP2",
+      "weight": 0.5,
+      "latency": 0.1,
+      "capacity": 2.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_sw3_srv_file",
+      "source": "SW3",
+      "target": "SRV_FILE",
+      "weight": 0.5,
+      "latency": 0.1,
+      "capacity": 2.0,
+      "reliability": 0.99
+    },
+    {
+      "edge_id": "e_rbranch_srvbranch",
+      "source": "R_BRANCH",
+      "target": "SRV_BRANCH",
+      "weight": 2.0,
+      "latency": 1.0,
+      "capacity": 1.0,
+      "reliability": 0.98
+    }
+  ]
+}

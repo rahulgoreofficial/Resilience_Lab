@@ -1,0 +1,128 @@
+{
+  "name": "Cascading_Failure_Demonstration_Topology",
+  "directed": false,
+  "multigraph": false,
+  "metadata": {
+    "is_demonstration": true,
+    "description": "Controlled 5-node cascading failure scenario demonstrating traffic redistribution, backup router overload, and cascade propagation under discrete capacity thresholds.",
+    "traffic_flows": [
+      {
+        "source": "CL1",
+        "target": "SRV_APP",
+        "demand": 300.0,
+        "name": "Primary Production Client Flow"
+      }
+    ],
+    "assumptions": [
+      "Static single shortest-path routing (Dijkstra) without multi-path flow splitting (ECMP).",
+      "Instantaneous traffic reallocation upon link or node disruption.",
+      "Discrete threshold failure model: Node fails when (background_load + routed_traffic) > capacity * threshold.",
+      "Non-recoverable node failures during the cascade simulation run."
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "CL1",
+      "node_type": "router",
+      "importance": 3.0,
+      "capacity": 1000.0,
+      "current_load": 0.0,
+      "failure_probability": 0.01,
+      "is_critical": false,
+      "metadata": { "label": "Client Host / Ingress", "role": "Traffic Origin" }
+    },
+    {
+      "node_id": "PR1",
+      "node_type": "router",
+      "importance": 4.5,
+      "capacity": 500.0,
+      "current_load": 100.0,
+      "failure_probability": 0.02,
+      "is_critical": true,
+      "metadata": { "label": "Primary Router (PR1)", "role": "Primary Active Path", "capacity_limit": 500.0, "bg_load": 100.0 }
+    },
+    {
+      "node_id": "BR1",
+      "node_type": "router",
+      "importance": 4.0,
+      "capacity": 350.0,
+      "current_load": 100.0,
+      "failure_probability": 0.02,
+      "is_critical": false,
+      "metadata": { "label": "Backup Router (BR1)", "role": "Secondary Redundant Path", "capacity_limit": 350.0, "bg_load": 100.0 }
+    },
+    {
+      "node_id": "CS1",
+      "node_type": "switch",
+      "importance": 4.0,
+      "capacity": 800.0,
+      "current_load": 150.0,
+      "failure_probability": 0.01,
+      "is_critical": true,
+      "metadata": { "label": "Core Switch (CS1)", "role": "Aggregation Layer" }
+    },
+    {
+      "node_id": "SRV_APP",
+      "node_type": "server",
+      "importance": 5.0,
+      "capacity": 600.0,
+      "current_load": 100.0,
+      "failure_probability": 0.01,
+      "is_critical": true,
+      "metadata": { "label": "Application Server (SRV_APP)", "role": "Destination Service" }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "E_CL1_PR1",
+      "source": "CL1",
+      "target": "PR1",
+      "weight": 1.0,
+      "capacity": 600.0,
+      "latency": 2.0,
+      "is_directed": false,
+      "metadata": { "label": "Primary Ingress Link" }
+    },
+    {
+      "edge_id": "E_PR1_CS1",
+      "source": "PR1",
+      "target": "CS1",
+      "weight": 1.0,
+      "capacity": 600.0,
+      "latency": 2.0,
+      "is_directed": false,
+      "metadata": { "label": "Primary Core Uplink" }
+    },
+    {
+      "edge_id": "E_CL1_BR1",
+      "source": "CL1",
+      "target": "BR1",
+      "weight": 2.5,
+      "capacity": 500.0,
+      "latency": 6.0,
+      "is_directed": false,
+      "metadata": { "label": "Backup Ingress Link (Higher Metric)" }
+    },
+    {
+      "edge_id": "E_BR1_CS1",
+      "source": "BR1",
+      "target": "CS1",
+      "weight": 2.5,
+      "capacity": 500.0,
+      "latency": 6.0,
+      "is_directed": false,
+      "metadata": { "label": "Backup Core Uplink" }
+    },
+    {
+      "edge_id": "E_CS1_SRV",
+      "source": "CS1",
+      "target": "SRV_APP",
+      "weight": 1.0,
+      "capacity": 800.0,
+      "latency": 1.0,
+      "is_directed": false,
+      "metadata": { "label": "Server Access Link" }
+    }
+  ]
+}
+
