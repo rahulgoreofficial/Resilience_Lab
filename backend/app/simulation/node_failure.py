@@ -69,7 +69,11 @@ def simulate_node_failure(
         "requested_failures": unique_failed_nodes
     }).to_dict())
 
-    # 2. Create isolated snapshot
+    # 2. Compute baseline connectivity before any failures
+    baseline_comp_info = find_connected_components(graph)
+    baseline_component_count = baseline_comp_info["component_count"]
+
+    # 3. Create isolated snapshot
     sim_graph = create_isolated_graph_snapshot(graph, snapshot_name=f"sim_{sim_id}")
 
     # 3. Apply node failures and record incident edge deletions
@@ -128,7 +132,8 @@ def simulate_node_failure(
         parameters={
             "failed_nodes": unique_failed_nodes,
             "entry_points": entry_points or [],
-            "critical_services": critical_services or []
+            "critical_services": critical_services or [],
+            "baseline_component_count": baseline_component_count
         },
         events=events,
         failed_nodes=unique_failed_nodes,

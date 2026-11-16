@@ -102,6 +102,10 @@ def simulate_edge_failure(
         "requested_failures": [e[0] for e in resolved_edge_tuples]
     }).to_dict())
 
+    # Compute baseline component count before failures
+    baseline_comp_info = find_connected_components(graph)
+    baseline_component_count = baseline_comp_info["component_count"]
+
     # 2. Create isolated snapshot
     sim_graph = create_isolated_graph_snapshot(graph, snapshot_name=f"sim_{sim_id}")
 
@@ -177,7 +181,8 @@ def simulate_edge_failure(
         parameters={
             "failed_edges": [e[0] for e in resolved_edge_tuples],
             "entry_points": entry_points or [],
-            "critical_services": critical_services or []
+            "critical_services": critical_services or [],
+            "baseline_component_count": baseline_component_count
         },
         events=events,
         failed_nodes=[],

@@ -95,6 +95,10 @@ def simulate_multiple_failures(
         "combinatorial_scenarios_C_n_k": total_scenario_space
     }).to_dict())
 
+    # Compute baseline connectivity before failures
+    baseline_comp_info = find_connected_components(graph)
+    baseline_component_count = baseline_comp_info["component_count"]
+
     # 3. Create isolated graph snapshot
     sim_graph = create_isolated_graph_snapshot(graph, snapshot_name=f"sim_{sim_id}")
 
@@ -161,7 +165,8 @@ def simulate_multiple_failures(
             "failed_nodes": unique_failed_nodes,
             "failed_edges": list(seen_edge_ids),
             "entry_points": entry_points or [],
-            "critical_services": critical_services or []
+            "critical_services": critical_services or [],
+            "baseline_component_count": baseline_component_count
         },
         events=events,
         failed_nodes=unique_failed_nodes,

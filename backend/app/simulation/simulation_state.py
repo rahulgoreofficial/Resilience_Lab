@@ -78,6 +78,26 @@ class SimulationResult:
 
     def to_dict(self) -> Dict[str, Any]:
         """Serializes result into a clean JSON-serializable dictionary."""
+        import math
+
+        # Compute derived metrics for frontend consumption
+        active = self.active_node_count
+        baseline = self.baseline_node_count
+
+        # LCC ratio: fraction of *active* nodes in the giant component
+        lcc_ratio = round(self.giant_component_size / active, 4) if active > 0 else 0.0
+
+        # Pairwise connectivity ratio: sum C(|Ci|,2) / C(|active|,2)
+        component_sizes = [len(c) for c in self.connected_components] if self.connected_components else []
+        total_pairs = math.comb(active, 2) if active >= 2 else 0
+        connected_pairs = sum(math.comb(s, 2) for s in component_sizes if s >= 2)
+        pairwise_ratio = round(connected_pairs / total_pairs, 4) if total_pairs > 0 else (1.0 if active <= 1 else 0.0)
+
+        # Baseline (pre-failure) component count is always 1 for a connected network,
+        # but we store it in parameters.  Fallback to 1.
+        initial_components = self.parameters.get("baseline_component_count", 1)
+        final_components = self.connected_component_count
+
         return {
             "simulation_id": self.simulation_id,
             "simulation_type": self.simulation_type.value if isinstance(self.simulation_type, SimulationType) else str(self.simulation_type),
@@ -89,12 +109,12 @@ class SimulationResult:
             "events": self.events,
             "failed_nodes": sorted(self.failed_nodes),
             "failed_edges": sorted(self.failed_edges),
-            "active_node_count": self.active_node_count,
+            "active_node_count": active,
             "active_edge_count": self.active_edge_count,
-            "baseline_node_count": self.baseline_node_count,
+            "baseline_node_count": baseline,
             "baseline_edge_count": self.baseline_edge_count,
             "connected_components": self.connected_components,
-            "connected_component_count": self.connected_component_count,
+            "connected_component_count": final_components,
             "giant_component": self.giant_component,
             "giant_component_size": self.giant_component_size,
             "isolated_nodes": self.isolated_nodes,
@@ -104,6 +124,13 @@ class SimulationResult:
             "reachable_critical_services": self.reachable_critical_services,
             "metrics": self.metrics,
             "timeline": self.timeline,
-            "error_message": self.error_message
+            "error_message": self.error_message,
+            # ── Frontend-consumable top-level metrics ──────────────────────────
+            "lcc_ratio": lcc_ratio,
+            "pairwise_connectivity_ratio": pairwise_ratio,
+            "initial_components": initial_components,
+            "final_components": final_components,
+            "initial_lcc_size": baseline,
+            "final_lcc_size": self.giant_component_size,
         }
 
